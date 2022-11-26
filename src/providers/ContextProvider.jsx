@@ -29,39 +29,48 @@ const ContextProvider = ({ children }) => {
     else return n;
   };
 
-//   const checkVertical = () => {
-//     let counter = 0;
-
-//   };
-
-  const checkWinner = (column, row) => {
-    if (
-      colorArray[column][row + 1] === player ||
-      colorArray[column][row - 1] === player
-    ) {
-      checkVertical();
+  const checkWinner = (counter, column, row, colAddon, rowAddon) => {
+    while (true) {
+      if (colorArray[column] && colorArray[column][row] === player) {
+        counter++;
+        column += colAddon;
+        row += rowAddon;
+      } else {
+        break;
+      }
     }
+    return counter;
+  };
 
-    if (
-      colorArray[column + 1][row] === player ||
-      colorArray[column - 1][row] === player
-    ) {
-      checkHorizontal();
-    }
+  const checkVertical = (column, row) => {
+    let counter = 1;
+    counter = checkWinner(counter, column, row + 1, 0, 1);
 
-    if (
-      colorArray[column + 1][row + 1] === player ||
-      colorArray[column - 1][row - 1] === player
-    ) {
-      checkDiagnonallyLeft();
-    }
+    if (counter >= 4) console.log("Vertical Win!");
+  };
 
-    if (
-      colorArray[column + 1][row - 1] === player ||
-      colorArray[column - 1][row + 1] === player
-    ) {
-      checkDiagnonallyRight();
-    }
+  const checkHorizontal = (column, row) => {
+    let counter = 1;
+    counter = checkWinner(counter, column + 1, row, 1, 0);
+    counter += checkWinner(0, column - 1, row, -1, 0);
+
+    if (counter >= 4) console.log("Horizontal Win!");
+  };
+
+  const checkDiagnonallyLeft = (column, row) => {
+    let counter = 1;
+    counter = checkWinner(counter, column + 1, row + 1, 1, 1);
+    counter += checkWinner(0, column - 1, row - 1, -1, -1);
+
+    if (counter >= 4) console.log("Diagnoally Left Win!");
+  };
+
+  const checkDiagnonallyRight = (column, row) => {
+    let counter = 1;
+    counter = checkWinner(counter, column + 1, row - 1, 1, -1);
+    counter += checkWinner(0, column - 1, row + 1, -1, +1);
+
+    if (counter >= 4) console.log("Diagnoally Right Win!");
   };
 
   const handleColorArray = (column) => {
@@ -71,7 +80,10 @@ const ContextProvider = ({ children }) => {
 
     auxiliaryArray[column][row] = player;
     setColorArray(auxiliaryArray);
-    checkWinner(column, row);
+    checkVertical(column, row);
+    checkHorizontal(column, row);
+    checkDiagnonallyLeft(column, row);
+    checkDiagnonallyRight(column, row);
   };
 
   const handlePlayer = () => {
