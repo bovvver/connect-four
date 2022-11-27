@@ -8,6 +8,8 @@ const theme = {
     white: "#fff",
     black: "#000",
     grey: "#b6b6b7",
+    darkGrey: "#7f7f80",
+    shadow: "rgba(0, 0, 0, 0.8)",
   },
 };
 
