@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { StyledIcon } from "../../../views/Main/Main.styles";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -7,11 +7,8 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-`;
 
-export const StyledFont = styled(FontAwesomeIcon)`
-  font-size: 5rem;
-  color: ${({ theme }) => theme.colors.yellow};
-  border: 3px solid ${({ theme }) => theme.colors.black};
-  border-radius: 50%;
+  ${StyledIcon} {
+    font-size: 5rem;
+  }
 `;

@@ -3,16 +3,27 @@ import { GlobalStyle } from "../../assets/globalStyle";
 import { ThemeProvider } from "styled-components";
 import theme from "../../assets/theme";
 import Board from "../../components/organisms/Board/Board";
+import Main from "../Main/Main";
+import Rules from "../Rules/Rules";
 import ContextProvider from "../../providers/ContextProvider";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import NotFound from "../NotFound/NotFound";
 
 const Root = () => {
   return (
-    <ContextProvider>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Board />
-      </ThemeProvider>
-    </ContextProvider>
+    <Router>
+      <ContextProvider>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/game" element={<Board />} />
+            <Route path="/rules" element={<Rules />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </ThemeProvider>
+      </ContextProvider>
+    </Router>
   );
 };
 

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import mq from "../../../assets/responsiveDesign";
 
 export const ColumnBody = styled.div`
   position: relative;
@@ -19,6 +20,11 @@ export const ColumnBody = styled.div`
     border-top: 6px solid black;
     border-radius: 10px 10px 70px 70px;
     opacity: 0;
+
+    ${mq[0]} {
+      height: 4em;
+      top: -10%;
+    }
   }
 
   &:hover {

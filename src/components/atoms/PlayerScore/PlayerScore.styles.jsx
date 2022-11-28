@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import mq from "../../../assets/responsiveDesign";
 
 export const Wrapper = styled.div`
   position: relative;
@@ -28,9 +29,17 @@ export const Wrapper = styled.div`
 `;
 
 export const PlayerName = styled.p`
-  font-size: 1.8em;
+  font-size: 1.8rem;
+
+  ${mq[0]} {
+    font-size: 2.4rem;
+  }
 `;
 
 export const Score = styled.p`
-  font-size: 2.5em;
+  font-size: 2.5rem;
+
+  ${mq[0]} {
+    font-size: 3rem;
+  }
 `;
