@@ -13,6 +13,7 @@ export const Wrapper = styled.div`
   button {
     margin-top: 1em;
     font-size: 4rem;
+    max-width: 90%;
   }
 `;
 

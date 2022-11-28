@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import mq from "../../../assets/responsiveDesign";
 
 export const Wrapper = styled.button`
   padding: 0.5em 0;
@@ -16,6 +17,10 @@ export const Wrapper = styled.button`
   border-radius: 30px;
   cursor: pointer;
   transition: background-color 0.3s;
+
+  ${mq[0]} {
+    font-size: 2rem;
+  }
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.darkGrey};

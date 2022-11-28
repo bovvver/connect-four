@@ -7,6 +7,7 @@ import Main from "../Main/Main";
 import Rules from "../Rules/Rules";
 import ContextProvider from "../../providers/ContextProvider";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import NotFound from "../NotFound/NotFound";
 
 const Root = () => {
   return (
@@ -18,6 +19,7 @@ const Root = () => {
             <Route path="/" element={<Main />} />
             <Route path="/game" element={<Board />} />
             <Route path="/rules" element={<Rules />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </ThemeProvider>
       </ContextProvider>
