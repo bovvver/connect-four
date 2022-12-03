@@ -1,5 +1,6 @@
-import { faLaptopHouse } from "@fortawesome/free-solid-svg-icons";
 import React, { createContext, useState } from "react";
+
+// CONTEXTS
 
 export const TileColors = createContext({
   colorArray: [],
@@ -13,7 +14,6 @@ export const PlayerContext = createContext({
     player1: 0,
     player2: 0,
   },
-  handleWin: () => {},
 });
 
 export const GameContext = createContext({
@@ -37,13 +37,52 @@ for (let i = 0; i <= 6; i++) {
 }
 
 const ContextProvider = ({ children }) => {
-  const [colorArray, setColorArray] = useState(initialState);
+  const [colorArray, setColorArray] = useState(initialState); // HOOKS
   const [player, setPlayer] = useState("red");
   const [winCount, setWinCount] = useState({ player1: 0, player2: 0 });
   const [modalVisibility, setModalVisibility] = useState(false);
   const [draw, setDraw] = useState(false);
 
-  // winning conditions
+  // TILE CONTEXT
+
+  const handleColorArray = (column) => {
+    const auxiliaryArray = [...colorArray];
+    const row = checkTile(column, 5);
+
+    auxiliaryArray[column][row] = player;
+    setColorArray(auxiliaryArray);
+    checkConditions(column, row);
+    checkBoard();
+  };
+
+  // PLAYER CONTEXT
+
+  const handlePlayer = (n) => {
+    if (n < 0) return;
+    if (player === "red") setPlayer("yellow");
+    if (player === "yellow") setPlayer("red");
+  };
+
+  // GAME CONTEXT
+
+  const handleModalVisibility = () => {
+    setModalVisibility(!modalVisibility);
+  };
+
+  // BUTTON CONTEXT
+
+  const handleGameReset = () => {
+    clearArray();
+    setWinCount({ player1: 0, player2: 0 });
+  };
+
+  const handlePlayAgain = () => {
+    clearArray();
+    handleModalVisibility();
+    setDraw(false);
+  };
+
+  // UTILS FUNCTIONS
 
   const checkWinner = (counter, column, row, colAddon, rowAddon) => {
     while (true) {
@@ -112,26 +151,6 @@ const ContextProvider = ({ children }) => {
     }
   };
 
-  // change player
-
-  const handlePlayer = (n) => {
-    if (n < 0) return;
-    if (player === "red") setPlayer("yellow");
-    if (player === "yellow") setPlayer("red");
-  };
-
-  //buttons
-
-  const handlePlayAgain = () => {
-    clearArray();
-    handleModalVisibility();
-    setDraw(false);
-  };
-
-  const handleModalVisibility = () => {
-    setModalVisibility(!modalVisibility);
-  };
-
   const clearArray = () => {
     const emptyArray = [];
     for (let i = 0; i <= 6; i++) {
@@ -143,13 +162,6 @@ const ContextProvider = ({ children }) => {
     setColorArray(emptyArray);
   };
 
-  const handleGameReset = () => {
-    clearArray();
-    setWinCount({ player1: 0, player2: 0 });
-  };
-
-  // actual game
-
   const checkTile = (column, n) => {
     if (n < 0) return;
     if (colorArray[column][n] !== null) return checkTile(column, n - 1);
@@ -159,15 +171,7 @@ const ContextProvider = ({ children }) => {
     }
   };
 
-  const handleColorArray = (column) => {
-    const auxiliaryArray = [...colorArray];
-    const row = checkTile(column, 5);
-
-    auxiliaryArray[column][row] = player;
-    setColorArray(auxiliaryArray);
-    checkConditions(column, row);
-    checkBoard();
-  };
+  // COMPONENT RENDER
 
   return (
     <TileColors.Provider value={{ colorArray, handleColorArray }}>
