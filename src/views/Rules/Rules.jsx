@@ -16,7 +16,7 @@ const Rules = () => {
       <Button
         icon={<FontAwesomeIcon icon={faBackward} />}
         content="back"
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/connect-four/")}
       />
       <RulesBlock>
         <Rule>

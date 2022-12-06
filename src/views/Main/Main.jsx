@@ -22,12 +22,12 @@ const Main = () => {
       <Button
         icon={<FontAwesomeIcon icon={faCirclePlay} />}
         content="play"
-        onClick={() => handleClick("/game")}
+        onClick={() => handleClick("/connect-four/game")}
       />
       <Button
         icon={<FontAwesomeIcon icon={faClipboardList} />}
         content="rules"
-        onClick={() => handleClick("/rules")}
+        onClick={() => handleClick("/connect-four/rules")}
       />
     </Wrapper>
   );
