@@ -7,6 +7,7 @@
 <h2>connect-four 🔴🟡</h2>
 <p>
 Web game in which whoever connects <strong>four</strong> tiles first wins.
+<a href="https://memeemaster.github.io/connect-four/" target="_blank">Live page</a>
 </div>
 
 ## Installation
