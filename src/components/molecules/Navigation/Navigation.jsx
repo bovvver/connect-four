@@ -15,7 +15,7 @@ const Navigation = () => {
 
   const handleClick = () => {
     handleGameReset();
-    navigate("/");
+    navigate("/connect-four/");
   };
 
   return (

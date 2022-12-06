@@ -16,10 +16,10 @@ const Root = () => {
         <ThemeProvider theme={theme}>
           <GlobalStyle />
           <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/game" element={<Board />} />
-            <Route path="/rules" element={<Rules />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="/connect-four/" element={<Main />} />
+            <Route path="/connect-four/game" element={<Board />} />
+            <Route path="/connect-four/rules" element={<Rules />} />
+            <Route path="/connect-four/*" element={<NotFound />} />
           </Routes>
         </ThemeProvider>
       </ContextProvider>
