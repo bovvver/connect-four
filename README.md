@@ -1,5 +1,3 @@
-
-
 <div  align="center">
 <a  href="https://github.com/MemeeMaster/connect-four">
 <img  src="/src/assets/images/logo.png"  alt="Logo"  width="66"  height="66">
