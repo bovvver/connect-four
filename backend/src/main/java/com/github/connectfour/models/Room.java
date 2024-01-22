@@ -12,8 +12,8 @@ public class Room {
     private Player player2;
     private char[][] boardState;
 
-    private Integer BOARD_COLUMN_COUNT = 6;
-    private Integer BOARD_ROW_COUNT = 7;
+    private Integer BOARD_COLUMN_COUNT = 7;
+    private Integer BOARD_ROW_COUNT = 6;
 
     public Room(Player player1) {
         this.player1 = player1;
