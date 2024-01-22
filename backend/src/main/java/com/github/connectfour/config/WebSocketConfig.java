@@ -14,13 +14,15 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     private String ALLOWED_ORIGINS;
 
     @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").setAllowedOrigins(ALLOWED_ORIGINS);
+    public void configureMessageBroker(MessageBrokerRegistry config) {
+        config.enableSimpleBroker("/topic", "/queue");
+        config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
-    public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic");
-        config.setApplicationDestinationPrefixes("/app");
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/ws")
+                .setAllowedOrigins(ALLOWED_ORIGINS)
+                .setHandshakeHandler(new CustomHandshakeHandler());
     }
 }

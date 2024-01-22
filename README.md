@@ -1,10 +1,15 @@
-<div  align="center">
+<div align="center">
+	<h2>🚧 Work In Progress 🚧</h2>
+  <p>README below is for fully static front-end content. I am currently working on making this project multiplayer online with WebSockets. Feel free to checkout live page below since my job isn't finished yet. Stay tuned!</p>
+</div>
+<div align="center">
 <a  href="https://github.com/MemeeMaster/connect-four">
-<img  src="/src/assets/images/logo.png"  alt="Logo"  width="66"  height="66">
+<img  src="frontend/src/assets/images/logo.png"  alt="Logo"  width="66"  height="66">
 </a>
 <h2>connect-four 🔴🟡</h2>
 <p>
-Web game in which whoever connects <strong>four</strong> tiles first wins.
+Web game in which whoever connects <strong>four</strong> tiles first wins.<br/>
+<a href="https://memeemaster.github.io/connect-four/" target="_blank">Live page</a>
 </div>
 
 ## Installation
