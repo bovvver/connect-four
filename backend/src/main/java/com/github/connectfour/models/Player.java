@@ -9,10 +9,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Player {
     private String nickname;
+    private String uuid;
     private Integer score;
 
-    public Player(String nickname) {
+    public Player(String nickname, String uuid) {
         this.nickname = nickname;
+        this.uuid = uuid;
         this.score = 0;
     }
 }
