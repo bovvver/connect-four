@@ -6,4 +6,5 @@ public enum GameActions {
     MOVE,
     GAME_START,
     GAME_END,
+    ACCESS_DENIED
 }

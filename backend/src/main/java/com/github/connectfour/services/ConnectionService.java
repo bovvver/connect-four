@@ -56,7 +56,7 @@ public class ConnectionService {
             return;
         }
 
-        Player secondPlayer = new Player(message.nickname(),principalName);
+        Player secondPlayer = new Player(message.nickname(), principalName);
 
         if (room.getPlayer1() == null) room.setPlayer1(secondPlayer);
         else if (room.getPlayer2() == null) room.setPlayer2(secondPlayer);
@@ -83,6 +83,10 @@ public class ConnectionService {
             sb.append(AlphaNumericString.charAt(index));
         }
         return sb.toString();
+    }
+
+    public Map<String, Room> getRooms() {
+        return rooms;
     }
 }
 

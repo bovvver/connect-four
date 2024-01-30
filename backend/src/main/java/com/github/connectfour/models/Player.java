@@ -1,5 +1,6 @@
 package com.github.connectfour.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Player {
     private String nickname;
+    @JsonIgnore
     private String uuid;
     private Integer score;
 
