@@ -5,12 +5,11 @@ import com.github.connectfour.messages.JoinRoomMessage;
 import com.github.connectfour.models.Player;
 import com.github.connectfour.models.Room;
 import com.github.connectfour.responses.ConnectionResponse;
-import com.github.connectfour.responses.ErrorResponse;
+import com.github.connectfour.utils.RoomUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.HashMap;
@@ -18,10 +17,12 @@ import java.util.Map;
 
 @Service
 public class ConnectionService {
+    private final RoomUtils roomUtils;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final Map<String, Room> rooms;
 
-    public ConnectionService(SimpMessagingTemplate simpMessagingTemplate) {
+    public ConnectionService(RoomUtils roomUtils, SimpMessagingTemplate simpMessagingTemplate) {
+        this.roomUtils = roomUtils;
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.rooms = new HashMap<>();
     }
@@ -47,14 +48,7 @@ public class ConnectionService {
         String roomCode = message.roomCode();
         Room room = rooms.get(roomCode);
 
-        try {
-            checkRoomAvailability(room);
-        } catch (ResponseStatusException e) {
-            ErrorResponse error = new ErrorResponse(e.getStatusCode(), e.getReason());
-            ResponseEntity<ErrorResponse> response = new ResponseEntity<>(error, e.getStatusCode());
-            simpMessagingTemplate.convertAndSendToUser(principalName, "/queue/room", response);
-            return;
-        }
+        if(!roomUtils.checkRoomAvailability(room, principalName)) return;
 
         Player secondPlayer = new Player(message.nickname(), principalName);
 
@@ -63,13 +57,6 @@ public class ConnectionService {
 
         ConnectionResponse response = new ConnectionResponse(HttpStatus.OK, "Room joined.", roomCode, room);
         simpMessagingTemplate.convertAndSendToUser(principalName, "/queue/room", ResponseEntity.ok(response));
-    }
-
-    private void checkRoomAvailability(Room room) {
-        if (room == null)
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Room with this code doesn't exist.");
-        else if (room.getPlayer1() != null && room.getPlayer2() != null)
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Room is already full.");
     }
 
     private static String generateRoomCode(int codeLength) {

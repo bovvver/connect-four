@@ -20,6 +20,6 @@ public class GameController {
 
     @MessageMapping("/move")
     public void makeMove(MoveMessage message, Principal principal) {
-        gameService.makeMove(message, principal);
+        gameService.prepareMove(message, principal);
     }
 }
