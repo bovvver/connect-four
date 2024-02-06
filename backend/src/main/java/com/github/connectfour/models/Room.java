@@ -1,6 +1,7 @@
 package com.github.connectfour.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.github.connectfour.enums.GameState;
 import com.github.connectfour.enums.TileState;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import java.util.Arrays;
 
 @Setter
 @NoArgsConstructor
+@JsonIgnoreProperties({"player1", "player2", "turn"})
 public class Room {
     private Player player1;
     private Player player2;
