@@ -19,4 +19,8 @@ public class Player {
         this.uuid = uuid;
         this.score = 0;
     }
+
+    public void incrementScore() {
+        this.score++;
+    }
 }
