@@ -13,11 +13,13 @@ public class Player {
     @JsonIgnore
     private String uuid;
     private Integer score;
+    private boolean isReadyForRestart;
 
     public Player(String nickname, String uuid) {
         this.nickname = nickname;
         this.uuid = uuid;
         this.score = 0;
+        this.isReadyForRestart = false;
     }
 
     public void incrementScore() {

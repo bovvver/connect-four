@@ -14,14 +14,21 @@ public class RoomUtils {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     public boolean checkRoomAvailability(Room room, String principalName) {
+        return checkIfRoomExists(room, principalName) && checkIfRoomIsFull(room, principalName);
+    }
+
+    public boolean checkIfRoomExists(Room room, String principalName) {
         if (room == null) {
             returnError(HttpStatus.NOT_FOUND, "Room with this code doesn't exist.", principalName);
             return false;
-        } else if (room.getPlayer1() != null && room.getPlayer2() != null) {
+        } return true;
+    }
+
+    public boolean checkIfRoomIsFull(Room room, String principalName) {
+        if (room.getPlayer1() != null && room.getPlayer2() != null) {
             returnError(HttpStatus.FORBIDDEN, "Room is already full.", principalName);
             return false;
-        }
-        return true;
+        } return true;
     }
 
     private void returnError(HttpStatus httpStatus, String errorMessage, String principalName) {
