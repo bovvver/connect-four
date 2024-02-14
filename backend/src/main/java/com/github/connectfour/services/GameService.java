@@ -140,6 +140,93 @@ public class GameService {
 
     private boolean checkRoomAccessDenial(String roomCode, String principalName) {
         Room room = connectionService.getRoomByRoomCode(roomCode);
+    }
+
+    private void makeMove(MoveMessage message, String principalName) {
+        String roomCode = message.roomCode();
+        int column = message.column();
+
+        Room room = connectionService.getRooms().get(roomCode);
+
+        if (!validateCurrentTurn(room, principalName)) return;
+
+        BoardUpdateResponse newBoard = updateColumn(room, principalName, column, room.getBoardRowLength() - 1);
+        TileState[][] updatedBoard = newBoard.updatedBoard();
+
+        if (room.getBoardState() == updatedBoard) {
+            simpMessagingTemplate.convertAndSend(getRoomCodeUrl(roomCode), ResponseEntity.status(400).body(room));
+        } else {
+            room.setBoardState(updatedBoard);
+            boolean isWinner = checkForWin(room, column, newBoard.populatedRow());
+            resolveTurn(room, roomCode, isWinner);
+        }
+    }
+
+    private void resolveTurn(Room room, String roomCode, boolean isWinner) {
+        GameState newGameState;
+
+        if (!isWinner) {
+            newGameState = room.getGameState() == GameState.PLAYER1_MOVE ? GameState.PLAYER2_MOVE : GameState.PLAYER1_MOVE;
+            room.setGameState(newGameState);
+            connectionService.getRooms().put(roomCode, room);
+
+            simpMessagingTemplate.convertAndSend(getRoomCodeUrl(roomCode), ResponseEntity.ok(room));
+            return;
+        }
+
+        newGameState = room.getGameState() == GameState.PLAYER1_MOVE ? GameState.PLAYER1_WIN : GameState.PLAYER2_WIN;
+        room.setGameState(newGameState);
+
+        if(newGameState == GameState.PLAYER1_WIN) room.getPlayer1().incrementScore();
+        else if(newGameState == GameState.PLAYER2_WIN) room.getPlayer2().incrementScore();
+
+        connectionService.getRooms().put(roomCode, room);
+
+        simpMessagingTemplate.convertAndSend(getRoomCodeUrl(roomCode), ResponseEntity.ok(room));
+    }
+
+    private boolean checkForWin(Room room, int column, int row) {
+        TileState[][] board = room.getBoardState();
+        TileState tileColor = board[column][row];
+
+        if (checkDirection(column, row, 1, 0, board, tileColor)) return true;
+        if (checkDirection(column, row, 0, 1, board, tileColor)) return true;
+        if (checkDirection(column, row, 1, 1, board, tileColor)) return true;
+        if (checkDirection(column, row, 1, -1, board, tileColor)) return true;
+        return false;
+    }
+
+    private boolean checkDirection(int column, int row, int dx, int dy, TileState[][] board, TileState tileColor) {
+        int count = 1;
+
+        count += countInDirection(column, row, dx, dy, board, tileColor);
+        count += countInDirection(column, row, -dx, -dy, board, tileColor);
+
+        return count >= 4;
+    }
+
+    private int countInDirection(int column, int row, int dx, int dy, TileState[][] board, TileState tileColor) {
+        int count = 0;
+        int currentColumn = column + dx;
+        int currentRow = row + dy;
+
+        while (isValidPosition(currentColumn, currentRow) && board[currentColumn][currentRow] == tileColor) {
+            count++;
+            currentColumn += dx;
+            currentRow += dy;
+        }
+
+        return count;
+    }
+
+    private boolean isValidPosition(int column, int row) {
+        return column >= 0 && column < 7 && row >= 0 && row < 6;
+    }
+
+    private boolean checkRoomAccessDenial(String roomCode, String principalName) {
+        Room room = connectionService.getRooms().get(roomCode);
+
+        if (!roomUtils.checkRoomAvailability(room, principalName)) return true;
 
         String player1Uuid = room.getPlayer1().getUuid();
         String player2Uuid = room.getPlayer2().getUuid();

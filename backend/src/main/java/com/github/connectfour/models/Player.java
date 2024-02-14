@@ -25,4 +25,8 @@ public class Player {
     public void incrementScore() {
         this.score++;
     }
+
+    public void incrementScore() {
+        this.score++;
+    }
 }
