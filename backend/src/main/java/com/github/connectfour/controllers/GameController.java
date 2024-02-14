@@ -22,4 +22,9 @@ public class GameController {
     public void makeMove(MoveMessage message, Principal principal) {
         gameService.prepareMove(message, principal);
     }
+
+    @MessageMapping("/restart")
+    public void restartGame(String roomCode, Principal principal) {
+        gameService.restartGame(roomCode, principal);
+    }
 }

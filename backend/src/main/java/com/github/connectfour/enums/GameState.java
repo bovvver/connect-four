@@ -6,5 +6,6 @@ public enum GameState {
     PLAYER2_MOVE,
     PLAYER1_WIN,
     PLAYER2_WIN,
-    ACCESS_DENIED
+    ACCESS_DENIED,
+    RESTART_REQUEST
 }

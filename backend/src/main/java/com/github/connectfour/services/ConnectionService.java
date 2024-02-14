@@ -75,5 +75,9 @@ public class ConnectionService {
     public Map<String, Room> getRooms() {
         return rooms;
     }
+
+    public Room getRoomByRoomCode(String roomCode) {
+        return rooms.get(roomCode);
+    }
 }
 
