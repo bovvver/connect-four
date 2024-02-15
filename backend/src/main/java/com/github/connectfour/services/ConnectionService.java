@@ -1,6 +1,5 @@
 package com.github.connectfour.services;
 
-import com.github.connectfour.enums.GameState;
 import com.github.connectfour.messages.CreateRoomMessage;
 import com.github.connectfour.messages.JoinRoomMessage;
 import com.github.connectfour.models.Player;
@@ -41,9 +40,7 @@ public class ConnectionService {
         rooms.put(roomCode, newRoom);
 
         ConnectionResponse response = new ConnectionResponse(HttpStatus.OK, "Room created.", roomCode, newRoom);
-//        simpMessagingTemplate.convertAndSendToUser(principalName, "/queue/room", ResponseEntity.ok(response));
-        simpMessagingTemplate.convertAndSendToUser(principalName, "/queue/room", ResponseEntity.ok(GameState.PLAYER1_MOVE));
-
+        simpMessagingTemplate.convertAndSendToUser(principalName, "/queue/room", ResponseEntity.ok(response));
     }
 
     public void joinRoom(JoinRoomMessage message, Principal principal) {
@@ -51,7 +48,7 @@ public class ConnectionService {
         String roomCode = message.roomCode();
         Room room = rooms.get(roomCode);
 
-        if(!roomUtils.checkRoomAvailability(room, principalName)) return;
+        if (!roomUtils.checkRoomAvailability(room, principalName)) return;
 
         Player secondPlayer = new Player(message.nickname(), principalName);
 
