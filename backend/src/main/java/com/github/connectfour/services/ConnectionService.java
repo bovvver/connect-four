@@ -48,7 +48,7 @@ public class ConnectionService {
         String roomCode = message.roomCode();
         Room room = rooms.get(roomCode);
 
-        if(!roomUtils.checkRoomAvailability(room, principalName)) return;
+        if (!roomUtils.checkRoomAvailability(room, principalName)) return;
 
         Player secondPlayer = new Player(message.nickname(), principalName);
 
